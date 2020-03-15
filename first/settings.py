@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'imagekit',
+    'post'
 ]
 
 MIDDLEWARE = [
