@@ -57,6 +57,8 @@ def signout(request):
     return redirect('home')
 
 
-@login_required(login_url='/login/')
+'''@login_required(login_url='/login/')'''
+
+
 def home(request):
-    return render(request, 'accounts/home.html')
+    return render(request, 'accounts/index.html')
