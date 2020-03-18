@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,80 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+
+  <style>
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    /* Full-width input fields */
+    .form-group {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      display: inline-block;
+      border: none;
+      background: #f1f1f1;
+    }
+    
+    input[type=text]:focus, input[type=password]:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+    
+    /* Overwrite default styles of hr */
+    hr {
+      border: 1px solid #f1f1f1;
+      margin-bottom: 25px;
+    }
+    
+    /* Set a style for the submit button */
+    .btnRegister {
+      background-color: rgb(0, 150, 255);
+      color: white;
+      padding: 16px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+    }
+    
+    .btnRegister:hover {
+      opacity: 1;
+    }
+    
+    /* Add a blue text color to links */
+    a {
+      color: dodgerblue;
+    }
+    
+    /* Set a grey background color and center the text of the "sign in" section */
+    .signin {
+      background-color: #f1f1f1;
+      text-align: center;
+    }
+    
+    .navbar {
+      overflow: hidden;
+      background-color: rgb(0, 150, 255);
+    }
+    
+    .navbar a {
+      float: left;
+      font-size: 16px;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    
+    </style>
+
+
+
 </head>
 
 <body>
@@ -59,7 +134,7 @@
 
       <div class="logo float-left">
         <!-- Uncomment below if you prefer to use an image logo -->
-        <h1 class="text-light"><a href="#intro" class="scrollto"><span>Rapid</span></a></h1>
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span>GIGO</span></a></h1>
         <!-- <a href="#header" class="scrollto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
       </div>
 
@@ -101,7 +176,7 @@
         <div class="col-md-6 intro-info order-md-first order-last">
           <h2>Rapid Solutions<br>for Your <span>Business!</span></h2>
           <div>
-            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="#about" class="btn-get-started scrollto">Login</a>
           </div>
         </div>
 
@@ -122,32 +197,24 @@
         <div class="row">
 
           <div class="col-lg-5 col-md-6">
-            <div class="about-img">
-              <img src="{% static 'img/about-img.jpg' %}" alt="">
-            </div>
+            <form method="POST">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  {{ l_form|crispy }}
+              </fieldset>
+              <input type="submit" class="btnLogin" value="Login" />
+            </form>
           </div>
 
           <div class="col-lg-7 col-md-6">
-            <div class="about-content">
-              <h2>About Us</h2>
-              <h3>Odio sed id eos et laboriosam consequatur eos earum soluta.</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-              <p>Aut dolor id. Sint aliquam consequatur ex ex labore. Et quis qui dolor nulla dolores neque. Aspernatur
-                consectetur omnis numquam quaerat. Sed fugiat nisi. Officiis veniam molestiae. Et vel ut quidem alias
-                veritatis repudiandae ut fugit. Est ut eligendi aspernatur nulla voluptates veniam iusto vel quisquam.
-                Fugit ut maxime incidunt accusantium totam repellendus eum error. Et repudiandae eum iste qui et ut ab
-                alias.</p>
-              <ul>
-                <li><i class="ion-android-checkmark-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                  consequat.</li>
-                <li><i class="ion-android-checkmark-circle"></i> Duis aute irure dolor in reprehenderit in voluptate
-                  velit.</li>
-                <li><i class="ion-android-checkmark-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                  consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore
-                  eu fugiat nulla pariatur.</li>
-              </ul>
-            </div>
+            <form method="POST">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  {{ s_form|crispy }}
+              </fieldset>
+          
+              <input type="submit" class="btnRegister" value="Register" />
+            </form>
           </div>
         </div>
       </div>
