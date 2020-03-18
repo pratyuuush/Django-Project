@@ -4,21 +4,27 @@ from django.views.generic import (
     CreateView, UpdateView, DeleteView
     )
 from .models import Post
+from .forms import PostForm
 from django.contrib.auth.mixins import UserPassesTestMixin    
 from django.contrib.auth.decorators import login_required
+
 
 
 class view_post(DetailView):
     model = Post    
 
-@login_required(login_url='/login/')
-class create_post(CreateView):
-    model = Post
-    fields = ['caption', 'location']
+'''@login_required(login_url='/login/')'''
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('create_post')
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    else:
+        form = PostForm()
+
+    return render(request, 'post/create_post.html', {'form': form})
 
 @login_required(login_url='/login/')
 class update_post(UserPassesTestMixin, UpdateView):
