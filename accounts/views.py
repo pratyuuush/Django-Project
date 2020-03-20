@@ -61,4 +61,7 @@ def signout(request):
 
 
 def home(request):
-    return render(request, 'accounts/index.html')
+    return render(request, 'accounts/home.html')
+
+def index(request):
+    return render(request, 'accounts/index.html')    

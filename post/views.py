@@ -15,16 +15,16 @@ class view_post(DetailView):
 
 '''@login_required(login_url='/login/')'''
 def create_post(request):
+    p_form = PostForm(request.POST)
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
+        if p_form.is_valid():
+            p_form.save(commit=True)
             return redirect('create_post')
 
     else:
-        form = PostForm()
+        p_form = PostForm()
 
-    return render(request, 'post/create_post.html', {'form': form})
+    return render(request, 'post/create_post.html', {'p_form': p_form})
 
 @login_required(login_url='/login/')
 class update_post(UserPassesTestMixin, UpdateView):

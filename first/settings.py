@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'imagekit',
     'post',
-    'taggit',
 ]
 
 MIDDLEWARE = [

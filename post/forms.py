@@ -7,5 +7,12 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = [
         'caption',
-            'tags',
         ]
+
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+        'caption',
+        ]        

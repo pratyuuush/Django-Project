@@ -1,17 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from taggit.managers import TaggableManager
+
+from accounts.models import UserProfile
+from datetime import datetime
 
 # Create your models here.
 
 
 class Post(models.Model):
-    caption = models.TextField(max_length=2200, null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(
+    caption = models.TextField(max_length=2000, null=True, blank=True)
+    posted_on = models.DateTimeField(default=datetime.now)
+
+    user_profile = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts')
-    tags = TaggableManager()
 
     def save(self, **kwargs):
         super().save()
+
