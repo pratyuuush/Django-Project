@@ -14,11 +14,11 @@ class UserProfile(models.Model):
     following = models.ManyToManyField('UserProfile',
                                        related_name="following_profile",
                                        blank=True)
-    profile_pic = ProcessedImageField(upload_to='profile_pics',
+    image = ProcessedImageField(upload_to='profile_pics',
                                       format='JPEG',
                                       options={'quality': 100},
                                       null=True,
-                                      blank=True)
+                                      blank=True, default='default.jpg')
 
     bio = models.CharField(max_length=200, null=True, blank=True)
 

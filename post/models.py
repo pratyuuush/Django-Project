@@ -12,6 +12,13 @@ class Post(models.Model):
     caption = models.TextField(max_length=2000, null=True, blank=True)
     posted_on = models.DateTimeField(default=datetime.now)
 
+
+    POST_TYPE = (
+        ('Job', 'Job'),
+        ('Blg', 'Blog'),
+    )
+    post_type = models.CharField(max_length=3, choices=POST_TYPE)
+
     user_profile = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts')
 
