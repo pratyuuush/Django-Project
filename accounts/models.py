@@ -26,17 +26,25 @@ class UserProfile(models.Model):
         ('Ind', 'Individual'),
         ('Org', 'Organization'),
     )
-    email = models.EmailField(max_length=70, unique=True)
+    email = models.EmailField(max_length=70)
     ac_type = models.CharField(max_length=3, choices=AC_TYPE)
 
     job_profile = models.CharField(max_length=50, blank=True, null=True)
 
+    def follow_user(self, follower):
+        return self.following.add(follower)
+
+    def unfollow_user(self, to_unfollow):
+        return self.following.remove(to_unfollow)
+
+    def is_following(self, checkuser):
+        return checkuser in self.following.all()
+
     def get_number_of_followers(self):
-        print(self.followers.count())
         if self.followers.count():
-            return self.followers.count()
+                return self.followers.count()
         else:
-            return 0
+                return 0
 
     def get_number_of_following(self):
         if self.following.count():

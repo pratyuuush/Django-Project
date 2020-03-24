@@ -9,6 +9,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!--===============================================================================================-->
   <link rel="icon" type="img/png" href="{% static 'img/icons/favicon.ico' %}" />
@@ -99,36 +104,32 @@
 
 <body>
   <header id="header" class="header-scrolled">
-    <div id="topbar">
-      <div class="container">
-        <div class="social-links">
-          <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-          <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-          <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-          <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-        </div>
-      </div>
-    </div>
+
     <div class="container">
 
       <div class="logo" style="text-align: center;">
 
         <h1 class="text-light" style="margin-bottom: 25px;">
-          <a href="#" class="float-left">
-            <img src="{{ user.UserProfile.image.url }}" class="rounded-circle z-depth-0" height="35"
-              alt="Image"></a>
-          <a href="{% url 'home' %}" class="scrollto">
+
+          <a href="{% url 'index' %}" class="float-left" id="imageDropdown" data-toggle="dropdown">
+            <img src="{{ user.userprofile.image.url }}" class="rounded-circle z-depth-0" style="width: 34px;"
+              alt="Image">
+          </a>
+          <a href="{% url 'index' %}" class="scrollto">
             <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a>
-          <a href="#" class="float-right"><i class="fa fa-search"></i></a>
+          <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search" style="font-size: 23px;"></i></a>
         </h1>
       </div>
     </div>
-    </div>
   </header>
+  <div class="container">
+    <div class="row">
+      <h1>Hey</h1>
+    </div>
+  </div>
 
 
 
-  <div id="dropDownSelect1"></div>
 
   <!--===============================================================================================-->
   <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>

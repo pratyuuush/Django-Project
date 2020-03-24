@@ -11,6 +11,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
+from .models import UserProfile
 
 # Create your views here.
 
@@ -23,8 +24,7 @@ def register(request):
         if form.is_valid():
             form.save()
             user = User.objects.get(username=request.POST['username'])
-            profile = UserProfile(user=user)
-            profile.save()
+            UserProfile.objects.create(user=user)
 
             new_user = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'])
@@ -45,11 +45,12 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('index')
 
     return render(request, 'accounts/login.html', {
         'l_form': form
     })
+    
 
 
 def signout(request):
