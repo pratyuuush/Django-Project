@@ -65,15 +65,6 @@
             -moz-transition: all 0.4s;
             transition: all 0.4s;
         }
-
-        .regBtn:hover {
-            background-color: #333333;
-            box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -moz-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -webkit-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -o-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -ms-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-        }
     </style>
 </head>
 
@@ -83,7 +74,7 @@
             <div class="logo" style="text-align: center;">
 
                 <h1 class="text-light" style="margin-bottom: 25px;">
-                    <a href="{% url 'register' %}" class="scrollto">
+                    <a href="{% url 'home' %}" class="scrollto">
                         <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a></h1>
 
             </div>
@@ -104,7 +95,9 @@
 
                 <div class="border-top pt-3">
                     <small class="text-muted">
-                        Already have an account? <a class="ml-2" href="{% url 'login' %}">Sign in now</a>
+                        <a class="ml-2" href="{% url 'login_user' %}" style="color: rgb(29, 142, 187);">Existing User?
+                            Sign
+                            in</a>
                     </small>
                 </div>
 

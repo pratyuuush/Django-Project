@@ -11,10 +11,8 @@
     <meta content="" name="keywords">
 
     <style>
-        .logBtn1 {
-            font-family: Poppins-Medium;
+        .loginBtn {
             font-size: 16px;
-            color: #fff;
             line-height: 1.2;
             text-transform: uppercase;
 
@@ -36,19 +34,11 @@
             -webkit-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
             -o-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
             -ms-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+
             -webkit-transition: all 0.4s;
             -o-transition: all 0.4s;
             -moz-transition: all 0.4s;
             transition: all 0.4s;
-        }
-
-        .logBtn1:hover {
-            background-color: #333333;
-            box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -moz-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -webkit-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -o-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
-            -ms-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
         }
     </style>
 
@@ -103,7 +93,8 @@
                 <div class="col-md-6 intro-info order-md-first order-last">
                     <h2>Gigo knows<br>what a freebird<span> is!</span></h2>
                     <div>
-                        <a href="{% url 'login' %}" class="logBtn1">Login</a>
+                        <a href="{% url 'login_user' %}" class="loginBtn"
+                            style=" text-decoration: none;color:rgb(255, 255, 255);">Login</a>
                     </div>
                 </div>
 

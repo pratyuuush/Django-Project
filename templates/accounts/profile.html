@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <title>Create Post</title>
+    <title>Profile</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -99,39 +99,175 @@
             height: 320px;
             width: 500px;
         }
+
+        img {
+            border-radius: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .profile-bar {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .profile-bar a {
+            float: left;
+            width: 25%;
+            text-align: center;
+            padding: 12px 0;
+            transition: all 0.3s ease;
+            color: #555;
+            font-size: 36px;
+        }
+
+        .profile-button {
+            background-color: #ddd;
+            border: none;
+            color: black;
+            padding: 10px 100px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 16px;
+            width: 35%;
+        }
+
+        .block {
+            font-family: Poppins-Medium;
+            font-size: 16px;
+            color: #fff;
+            line-height: 1.2;
+            text-transform: uppercase;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            width: 100%;
+            height: 50px;
+            background-color: rgb(170, 11, 170);
+            border-radius: 25px;
+
+            box-shadow: 0 10px 30px 0px rgb(206, 57, 206);
+            -moz-box-shadow: 0 10px 30px 0px rgb(206, 57, 206);
+            -webkit-box-shadow: 0 10px 30px 0px rgb(206, 57, 206);
+            -o-box-shadow: 0 10px 30px 0px rgb(206, 57, 206);
+            -ms-box-shadow: 0 10px 30px 0px rgb(206, 57, 206);
+
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            -moz-transition: all 0.4s;
+            transition: all 0.4s;
+        }
+
+        .block:hover {
+            background-color: #333333;
+            box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
+            -moz-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
+            -webkit-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
+            -o-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
+            -ms-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
+        }
     </style>
 </head>
 
 <body>
-    <header id="header" class="header-scrolled">
+    <div class="container">
+        <header id="header" class="header-scrolled">
 
-        <div class="container">
+            <div class="container">
 
-            <div class="logo" style="text-align: center;">
+                <div class="logo" style="text-align: center;">
 
-                <h1 class="text-light" style="margin-bottom: 25px;">
+                    <h1 class="text-light" style="margin-bottom: 25px;">
 
-                    <a href="{% url 'index' %}" class="float-left" id="imageDropdown" data-toggle="dropdown">
-                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle z-depth-0"
-                            style="width: 34px;" alt="Image">
-                    </a>
-                    <a href="{% url 'index' %}" class="scrollto">
-                        <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a>
-                    <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
-                            style="font-size: 23px;"></i></a>
-                </h1>
+                        <a href="{% url 'index' %}" class="float-left" id="imageDropdown" data-toggle="dropdown">
+                            <img src="{{ user.userprofile.image.url }}" class="rounded-circle z-depth-0"
+                                style="width: 30px;" alt="Image">
+                        </a>
+                        <a href="{% url 'index' %}" class="scrollto">
+                            <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a>
+                        <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
+                                style="font-size: 23px;"></i></a>
+                    </h1>
+                </div>
             </div>
-        </div>
-    </header>
-    <div>
-        {% block b_main %}
-
-        {% endblock %}
+        </header>
     </div>
 
+    <br> <br> <br> <br> <br> <br> <br>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{{ user.userprofile.image.url }}" alt="Avatar" style="width:200px">
+                <br>
+                <h4 style="text-decoration: underline; text-transform: uppercase;text-align: center;">
+                    {{ user.userprofile.ac_type }}
+                </h4><br>
+                <h2>@{{ user.username }}</h2>
+                <h2 style="text-transform: capitalize;">{{ user.first_name }} {{ user.last_name }}</h2>
 
+            </div>
+            <br>
+            <div class="col-sm-8">
+                <div class="profile-bar">
+                    <a class="active" href="#">
+                        <h2>97</h2>
+                        <h4>followers</h4>
+                    </a>
+                    <a href="#">
+                        <h2>97</h2>
+                        <h4>following</h4>
+                    </a>
+                    <a href="#">
+                        <h2>4.8</h2>
+                        <h4>ratings</h4>
+                    </a>
+                    <a href="#">
+                        <h2>97</h2>
+                        <h4>reviews</h4>
+                    </a>
+                </div>
+                <br>
+                <div class="bio-caption">
 
+                    <p style="font-size: 20px;">{{ user.userprofile.bio }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="contianer">
+        {% if request.user == user %}
+        <div class="profile-bar">
+            <a href="{% url 'profile_settings' user.username %}"><i class="fa fa-user-o"></i></a>
+            <a href="#"><i class="fa fa-cog"></i></a>
+            <a href="#"><i class="fa fa-bell-o"></i></a>
+            <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
+        </div>
+        {% else %}
+        <div class="profile-bar">
+            <a href="#"><i class="fa fa-user-o"></i></a>
+            <a href="#"><i class="fa fa-phone"></i></a>
+            <a href="#"><i class="fa fa-star"></i></a>
+            <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
+        </div>
+        {% endif %}
+    </div>
+    <hr>
     <!--===============================================================================================-->
     <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
     <!--===============================================================================================-->

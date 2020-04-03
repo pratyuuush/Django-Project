@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator
 from imagekit.models import ProcessedImageField
 from django.contrib.auth.models import User
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
+from django_countries.fields import CountryField
 # Create your models here.
 
 
@@ -20,17 +22,53 @@ class UserProfile(models.Model):
                                       null=True,
                                       blank=True, default='default.jpg')
 
-    bio = models.CharField(max_length=200, null=True, blank=True)
-
+    bio = models.CharField(max_length=200, null=True, blank=True, default = " ")
     AC_TYPE = (
-        ('Ind', 'Individual'),
-        ('Org', 'Organization'),
+        ('Individual', 'Individual'),
+        ('Organization', 'Organization'),
     )
+
+    
+
     email = models.EmailField(max_length=70)
-    ac_type = models.CharField(max_length=3, choices=AC_TYPE)
+    ac_type = models.CharField(max_length=12, choices=AC_TYPE, default=" ")
 
-    job_profile = models.CharField(max_length=50, blank=True, null=True)
+    address1 = models.CharField(
+        "Address line 1",
+        max_length=1024,
+        blank=False,
+        default=" "
+    )
 
+    address2 = models.CharField(
+        "Address line 2",
+        max_length=1024,
+        blank=False, 
+        default=" "
+    )
+
+    zip_code = models.CharField(
+        "ZIP / Postal code",
+        max_length=12,
+        blank=False, 
+        default=" "
+    )
+
+    city = models.CharField(
+        max_length=1024,
+        blank=False, 
+        default=" "
+    )
+    state = models.CharField(
+        max_length=1024,
+        blank=False, 
+        default=" "
+    )
+    country = CountryField(
+        blank_label='Select Country')
+
+    phone = PhoneNumberField(blank=False,null=True)
+    
     def follow_user(self, follower):
         return self.following.add(follower)
 
@@ -46,6 +84,8 @@ class UserProfile(models.Model):
         else:
                 return 0
 
+          
+
     def get_number_of_following(self):
         if self.following.count():
             return self.following.count()
@@ -56,9 +96,5 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class Contact(models.Model):
-    user_profile = models.ForeignKey(
-        UserProfile, null=True, blank=True, on_delete=models.CASCADE)
-    Address = models.CharField(max_length=200)
-    phone = models.PositiveIntegerField(primary_key=True, validators=[
-                                        MaxValueValidator(9999999999)])
+
+    

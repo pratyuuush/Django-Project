@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'imagekit',
     'post',
+    'six',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +72,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'first.wsgi.application'
 
@@ -103,6 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pratyush201998@gmail.com'
+EMAIL_HOST_PASSWORD = 'Jai2Ram0Ji'
+EMAIL_PORT = 587
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -116,6 +124,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LOGIN_REDIRECT_URL = 'index'
+
 
 
 # Static files (CSS, JavaScript, Images)

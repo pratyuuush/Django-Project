@@ -19,10 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
-    path('post', include('post.urls')),
+    path('gigo/', include('post.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG: 

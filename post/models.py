@@ -5,11 +5,9 @@ from django.utils import timezone
 from accounts.models import UserProfile
 from datetime import datetime
 
-# Create your models here.
-
 
 class Post(models.Model):
-    caption = models.TextField(max_length=2000, null=True, blank=True)
+    caption = models.CharField(max_length=1000, null=True, blank=False)
     posted_on = models.DateTimeField(default=datetime.now)
 
 

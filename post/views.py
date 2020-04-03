@@ -10,21 +10,19 @@ from django.contrib.auth.decorators import login_required
 
 
 
-class view_post(DetailView):
-    model = Post    
 
-'''@login_required(login_url='/login/')'''
-def create_post(request):
+def index(request):
+
     p_form = PostForm(request.POST)
     if request.method == 'POST':
         if p_form.is_valid():
             p_form.save(commit=True)
-            return redirect('create_post')
-
+            return redirect('index')
     else:
         p_form = PostForm()
+    return render(request, 'post/index.html',{'p_form': p_form})   
 
-    return render(request, 'post/create_post.html', {'p_form': p_form})
+
 
 @login_required(login_url='/login/')
 class update_post(UserPassesTestMixin, UpdateView):

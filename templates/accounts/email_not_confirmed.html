@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <title>Login</title>
+    <title>Gigo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -36,7 +36,16 @@
         rel="stylesheet">
 
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <style>
         .logBtn {
             font-family: Poppins-Medium;
@@ -53,7 +62,7 @@
             justify-content: center;
             align-items: center;
             padding: 0 20px;
-            width: 100%;
+            width: 39%;
             height: 50px;
             background-color: #000;
             border-radius: 25px;
@@ -74,6 +83,7 @@
 
 <body>
     <header id="header" class="header-scrolled">
+
         <div class="container">
             <div class="logo" style="text-align: center;">
 
@@ -84,58 +94,16 @@
             </div>
         </div>
     </header>
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
+    <div class="container">
+        <p style="padding-top:240px; padding-left:10px;font-family: Montserrat, sans-serif;font-size: 16px;">
+            Activation link is invalid!
+        <p style="padding-left:10px;padding-bottom:40px;font-family: Montserrat, sans-serif;font-size: 16px;">
+            Please try again to register
+        </p>
 
-                <form method="POST">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {{ l_form |crispy }}
-                    </fieldset>
-                    <button class="logBtn">Login</button>
-                </form>
-                <div class="border-top pt-3">
-                    <small class="text-muted">
-                        <a class="ml-2" href="{% url 'register' %}"
-                            style="text-decoration: none;color: rgb(29, 142, 187);padding-right: 100px;">New to Gigo?
-                            Sign up
-                        </a>
-
-                    </small>
-
-
-                </div>
-                <small class="text-muted">
-                    <a class="ml-2" href="{% url 'password_reset' %}"
-                        style="text-decoration: none;color: rgb(29, 142, 187);">Forgot password
-                    </a>
-
-                </small>
-
-            </div>
-        </div>
+        <a class="logBtn" type="button" href="{% url 'login_user' %}"
+            style="text-decoration: none; color: white;">Login</a>
     </div>
-
-
-    <div id="dropDownSelect1"></div>
-
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
-    <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'js/main1.js' %}"></script>
 
 </body>
 
