@@ -5,16 +5,15 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
-# Create your models here.
+from django.utils import timezone
+
+
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    followers = models.ManyToManyField('UserProfile',
-                                       related_name="followers_profile",
-                                       blank=True)
-    following = models.ManyToManyField('UserProfile',
-                                       related_name="following_profile",
+    follows = models.ManyToManyField('UserProfile',
+                                       related_name="followed_by",
                                        blank=True)
     image = ProcessedImageField(upload_to='profile_pics',
                                       format='JPEG',
@@ -49,7 +48,7 @@ class UserProfile(models.Model):
 
     zip_code = models.CharField(
         "ZIP / Postal code",
-        max_length=12,
+        max_length=10,
         blank=False, 
         default=" "
     )
@@ -69,6 +68,10 @@ class UserProfile(models.Model):
 
     phone = PhoneNumberField(blank=False,null=True)
     
+    feeds = models.ManyToManyField('Post',
+                            related_name="Feed",
+                            blank=True)
+
     def follow_user(self, follower):
         return self.following.add(follower)
 
@@ -95,6 +98,21 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Post(models.Model):
+    post_something = models.TextField(max_length=1000, null=True, blank=False)
+    posted_on = models.DateTimeField(default=timezone.now)
+    date_updated = models.DateTimeField(default=timezone.now)
 
+    POST_TYPE = (
+        ('Job', 'Job'),
+        ('Blg', 'Blog'),
+    )
+    post_type = models.CharField(max_length=3, choices=POST_TYPE)
+
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='posts')
+
+    def save(self, **kwargs):
+        super().save()
 
     

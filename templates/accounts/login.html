@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="img/png" href="{% static 'img/icons/favicon.ico' %}" />
+    <link rel="icon" type="img/jpg" href="{% static 'img/icons/logo.jpg' %}" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
     <!--===============================================================================================-->
@@ -78,9 +78,9 @@
             <div class="logo" style="text-align: center;">
 
                 <h1 class="text-light" style="margin-bottom: 25px;">
-                    <a href="{% url 'home' %}" class="scrollto">
-                        <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a></h1>
-
+                    <a href="{% url 'home' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+                            class="img-fluid" style="max-width: 100% !important;
+                            max-height: 60px !important;"></a>
             </div>
         </div>
     </header>

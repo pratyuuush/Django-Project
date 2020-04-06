@@ -1,0 +1,62 @@
+<br> <br> <br> <br> <br> <br> <br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="{{ user.userprofile.image.url }}" alt="Avatar" style="width:200px">
+      <br>
+      <h4 style="text-decoration: underline; text-transform: uppercase;text-align: center;">
+        {{ user.userprofile.ac_type }}
+      </h4><br>
+      <h2>@{{ user.username }}</h2>
+      <h2 style="text-transform: capitalize;">{{ user.first_name }} {{ user.last_name }}</h2>
+
+    </div>
+    <br>
+    <div class="col-sm-8">
+      <div class="profile-bar">
+        <a class="active" href="#">
+          <h2>97</h2>
+          <h4>followers</h4>
+        </a>
+        <a href="#">
+          <h2>97</h2>
+          <h4>following</h4>
+        </a>
+        <a href="#">
+          <h2>4.8</h2>
+          <h4>ratings</h4>
+        </a>
+        <a href="#">
+          <h2>97</h2>
+          <h4>reviews</h4>
+        </a>
+      </div>
+      <br>
+      <div class="bio-caption">
+
+        <p style="font-size: 20px;">{{ user.userprofile.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="contianer">
+  {% if request.user == user %}
+  <div class="profile-bar">
+    <a href="{% url 'profile_settings' user.username %}"><i class="fa fa-user-o"></i></a>
+    <a href="#"><i class="fa fa-cog"></i></a>
+    <a href="#"><i class="fa fa-bell-o"></i></a>
+    <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
+  </div>
+  {% else %}
+  <div class="profile-bar">
+    <a href="#"><i class="fa fa-user-o"></i></a>
+    <a href="#"><i class="fa fa-phone"></i></a>
+    <a href="#"><i class="fa fa-star"></i></a>
+    <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
+  </div>
+  {% endif %}
+</div>
+<hr>
+

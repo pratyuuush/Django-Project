@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'imagekit',
-    'post',
     'six',
     'phonenumber_field',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

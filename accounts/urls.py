@@ -11,4 +11,6 @@ urlpatterns = [
         views.activate, name='activate'),
     path('profile/(?P<username>[-_\w.]+)/$', views.profile, name='profile'),
     path('profile/(?P<username>[-_\w.]+)/edit/$', views.profile_settings, name='profile_settings'),
+    path('index/', views.index, name='index'),
+    path('user/<str:username>/follow/', views.FollowUser.as_view(), name='user_follow'),
 ]

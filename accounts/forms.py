@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile
+from .models import UserProfile, Post
 
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -46,4 +46,20 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ("bio","ac_type","address1","address2","city","state","country","zip_code","phone")
+        fields = ("bio", "ac_type", "address1", "address2", "city", "state", "country", "zip_code", "phone")
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+        'post_something',
+        'post_type',
+        ]
+
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+        'post_something',
+        ]        

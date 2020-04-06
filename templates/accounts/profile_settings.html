@@ -77,14 +77,15 @@
 
                 <h1 class="text-light" style="margin-bottom: 25px;">
 
-                    <a href="{% url 'profile_settings' user.username %}" class="float-left">
+                    <a href="{% url 'profile' user.username %}" class="float-left">
                         <img src="{{ user.userprofile.image.url }}" class="rounded-circle z-depth-0"
-                            style="width: 30px;" alt="Image">
+                        style="width: 35px;height: 30px;margin-top: 20px;" alt="Image">
                     </a>
-                    <a href="{% url 'index' %}" class="scrollto">
-                        <span style="font-size: 28px;font-family: Montserrat, sans-serif;">GIGO</span></a>
+                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}"
+                        alt="GIGO" class="img-fluid" style="max-width: 100% !important;
+                    max-height: 60px !important;"></a>
                     <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
-                            style="font-size: 23px;"></i></a>
+                        style="font-size: 28px;margin-top: 12px;"></i></a>
                 </h1>
             </div>
         </div>
