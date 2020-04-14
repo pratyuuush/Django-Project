@@ -17,7 +17,7 @@ urlpatterns = [
         'change-password/',
         auth_views.PasswordChangeView.as_view(
             template_name='registration/change-password.html',
-            success_url = '/change-password-done'
+            success_url='/change-password-done'
         ),
         name='change_password'
     ),
