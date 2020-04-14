@@ -11,10 +11,7 @@ from django.utils import timezone
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    follows = models.ManyToManyField('UserProfile',
-                                       related_name="followed_by",
-                                       blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)                            
     image = ProcessedImageField(upload_to='profile_pics',
                                       format='JPEG',
                                       options={'quality': 100},
@@ -72,22 +69,11 @@ class UserProfile(models.Model):
                             related_name="Feed",
                             blank=True)
 
-    def follow_user(self, follower):
-        return self.following.add(follower)
-
-    def unfollow_user(self, to_unfollow):
-        return self.following.remove(to_unfollow)
-
-    def is_following(self, checkuser):
-        return checkuser in self.following.all()
-
     def get_number_of_followers(self):
         if self.followers.count():
                 return self.followers.count()
         else:
                 return 0
-
-          
 
     def get_number_of_following(self):
         if self.following.count():
@@ -97,8 +83,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+        
 
 class Post(models.Model):
+    author = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE,null=True, blank=True)
     post_something = models.TextField(max_length=1000, null=True, blank=False)
     posted_on = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
@@ -109,10 +99,8 @@ class Post(models.Model):
     )
     post_type = models.CharField(max_length=3, choices=POST_TYPE)
 
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='posts')
+    def __str__(self):
+        return self.post_something
 
-    def save(self, **kwargs):
-        super().save()
 
     
