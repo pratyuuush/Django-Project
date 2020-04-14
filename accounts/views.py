@@ -146,6 +146,7 @@ def index(request):
             post = Post(author=request.user.userprofile,
                           post_something=request.POST['post_something'],
                           posted_on=datetime.datetime.now(),
+                          post_type = request.POST['post_type'],
                           )
             post.save()
            
