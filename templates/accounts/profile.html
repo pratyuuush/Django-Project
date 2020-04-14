@@ -253,19 +253,6 @@
         {% endif %}
     </div>
     <hr>
-    <script type="text/javascript">
-        window.USER_FOLLOW_URL = "{% url 'user_follow' view.kwargs.username %}";
-
-        function toggleFollow() {
-            $.ajax({
-                url: window.USER_FOLLOW_URL,
-                success: function (data) {
-                    $("#followCount").html(data.follower_count + ' Followers');
-                    $('#followElement').html(data.button);
-                }
-            });
-        };
-    </script>
     <!--===============================================================================================-->
     <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
     <!--===============================================================================================-->

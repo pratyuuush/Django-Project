@@ -11,9 +11,7 @@ from django.utils import timezone
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    followers = models.ManyToManyField(User, blank=True, related_name='user_followers')                               
+    user = models.OneToOneField(User, on_delete=models.CASCADE)                            
     image = ProcessedImageField(upload_to='profile_pics',
                                       format='JPEG',
                                       options={'quality': 100},
