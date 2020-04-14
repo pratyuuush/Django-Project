@@ -1,5 +1,5 @@
 from django.urls import path, include
-
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -12,5 +12,15 @@ urlpatterns = [
     path('profile/(?P<username>[-_\w.]+)/$', views.profile, name='profile'),
     path('profile/(?P<username>[-_\w.]+)/edit/$', views.profile_settings, name='profile_settings'),
     path('index/', views.index, name='index'),
+    path('settings/', views.settings, name='settings'),
+    path(
+        'change-password/',
+        auth_views.PasswordChangeView.as_view(
+            template_name='registration/change-password.html',
+            success_url = '/change-password-done'
+        ),
+        name='change_password'
+    ),
     path('user/<str:username>/follow/', views.FollowUser.as_view(), name='user_follow'),
+    path('user/<str:username>/followers/', views.ViewFollowers.as_view(), name='user_followers'),
 ]

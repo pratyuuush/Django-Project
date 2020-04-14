@@ -1,17 +1,14 @@
 {% load crispy_forms_tags %}
-{% load static custom_tags %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Gigo</title>
+    <title>Settings</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -54,10 +51,7 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <style>
-        .boxPost {
-            height: 320px;
-            width: 500px;
-        }
+
     </style>
 </head>
 
@@ -71,64 +65,24 @@
                 <h1 class="text-light" style="margin-bottom: 25px;">
 
                     <a href="{% url 'profile' user.username %}" class="float-left">
-                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle z-depth-0"
-                            style="width: 30px;" alt="Image">
+                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle"
+                            style="width: 35px;height: 40px;margin-top: 20px;" alt="Image">
                     </a>
-                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}"
-                        alt="GIGO" class="img-fluid" style="max-width: 100% !important;
+                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+                            class="img-fluid" style="max-width: 100% !important;
                     max-height: 60px !important;"></a>
                     <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
-                        style="font-size: 28px;margin-top: 12px;"></i></a>
+                            style="font-size: 28px;margin-top: 12px;"></i></a>
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="follow__wrapper row">
-        <div class="follow__heading">
-            {{ header }}
-        </div>
-        {% for profile in profiles %}
-        <div class="follow__card" id="{{ profile.pk }}">
-            {% if profile.image %}
-            <img class="picture-circle--small" src="{{ profile.image.url }}">
-            {% endif %}
-            <a href="{% url 'profile' profile.user.username %}">{{ profile.user.username }}</a>
-
-            {% if request.user.is_authenticated and profile != request.user.userprofile %}
-            <div class="follow-toggle__container">
-                {% is_following request.user.userprofile profile as following %}
-                <button class="btn btn-primary {% if not following %}follow-user{% else %}unfollow-user{% endif %}">
-                    {% if not following %}
-                    Follow
-                    {% else %}
-                    Following
-                    {% endif %}
-                </button>
-            </div>
-            {% endif %}
-        </div>
-        {% endfor %}
+    <div class="container"  style="padding-top:200px">
+        <a href="{% url 'change_password' %}"><button class="btn btn-primary">
+                Reset Password
+            </button></a>
     </div>
-
-
-
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
-    <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'js/main1.js' %}"></script>
 
 </body>
 

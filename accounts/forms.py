@@ -53,7 +53,6 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = [
         'post_something',
-        'post_type',
         ]
 
 

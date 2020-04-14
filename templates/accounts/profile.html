@@ -1,5 +1,5 @@
 {% load crispy_forms_tags %}
-{% load static %}
+{% load static custom_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +83,7 @@
             transition: all 0.4s;
         }
 
-        
+
 
         .boxPost {
             height: 320px;
@@ -183,8 +183,8 @@
                         <img src="{{ user.userprofile.image.url }}" class="rounded-circle"
                             style="width: 35px;height: 40px;margin-top: 20px;" alt="Image">
                     </a>
-                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}"
-                        alt="GIGO" class="img-fluid" style="max-width: 100% !important;
+                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+                            class="img-fluid" style="max-width: 100% !important;
                     max-height: 60px !important;"></a>
                     <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
                             style="font-size: 28px;margin-top: 12px;"></i></a>
@@ -193,7 +193,7 @@
         </div>
     </header>
 
-   
+
 
     <div class="container" style="padding-top: 130px;">
         <div class="row">
@@ -240,7 +240,7 @@
         {% if request.user == user %}
         <div class="profile-bar">
             <a href="{% url 'profile_settings' user.username %}"><i class="fa fa-user-o"></i></a>
-            <a href="#"><i class="fa fa-cog"></i></a>
+            <a href="{% url 'settings' %}"><i class="fa fa-cog"></i></a>
             <a href="#"><i class="fa fa-bell-o"></i></a>
             <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
         </div>
@@ -249,11 +249,23 @@
             <a href="#"><i class="fa fa-user-o"></i></a>
             <a href="#"><i class="fa fa-phone"></i></a>
             <a href="#"><i class="fa fa-star"></i></a>
-            <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
         </div>
         {% endif %}
     </div>
     <hr>
+    <script type="text/javascript">
+        window.USER_FOLLOW_URL = "{% url 'user_follow' view.kwargs.username %}";
+
+        function toggleFollow() {
+            $.ajax({
+                url: window.USER_FOLLOW_URL,
+                success: function (data) {
+                    $("#followCount").html(data.follower_count + ' Followers');
+                    $('#followElement').html(data.button);
+                }
+            });
+        };
+    </script>
     <!--===============================================================================================-->
     <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
     <!--===============================================================================================-->

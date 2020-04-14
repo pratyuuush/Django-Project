@@ -9,7 +9,7 @@ from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
 )
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -18,9 +18,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
-from django.contrib import messages
+from annoying.decorators import ajax_request
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions
+import datetime
+
 
 def register(request):
     if request.method == 'POST':
@@ -102,6 +104,7 @@ def home(request):
 
 
 def profile(request, username):
+    model = UserProfile
     user = User.objects.get(username=username)
     if not user:
         return redirect('index')
@@ -135,38 +138,17 @@ def profile_settings(request, username):
     }
     return render(request, 'accounts/profile_settings.html', context)
 
-def followers(request, username):
-    user = User.objects.get(username=username)
-    user_profile = UserProfile.objects.get(user=user)
-    profiles = user_profile.followers.all
-
-    context = {
-        'header': 'Followers',
-        'profiles': profiles,
-    }
-
-    return render(request, 'accounts/follow_list.html', context)
-
-
-def following(request, username):
-    user = User.objects.get(username=username)
-    user_profile = UserProfile.objects.get(user=user)
-    profiles = user_profile.following.all
-
-    context = {
-        'header': 'Following',
-        'profiles': profiles
-    }
-    return render(request, 'accounts/follow_list.html', context)
 
 def index(request):
-
-    p_form = PostForm(request.POST)
     if request.method == 'POST':
+        p_form = PostForm(request.POST)
         if p_form.is_valid():
-            p_form.save(commit=True)
-        
-
+            post = Post(author=request.user.userprofile,
+                          post_something=request.POST['post_something'],
+                          posted_on=datetime.datetime.now(),
+                          )
+            post.save()
+           
             return redirect('index')
     else:
         p_form = PostForm()
@@ -200,6 +182,10 @@ class DeletePost(UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
+def settings(request):
+    return render(request, 'accounts/settings.html')
+
 class FollowUser(APIView):
     authentication_classes = (authentication.SessionAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -229,4 +215,15 @@ class FollowUser(APIView):
             "button": button
         }
         return Response(data)
-        
+
+
+class ViewFollowers(LoginRequiredMixin, ListView):
+    model = UserProfile
+    template_name = 'accounts/user_followers.html'
+    context_object_name ='profile'
+    ordering = ['-date_posted']
+
+    def get_queryset(self):
+        obj = get_object_or_404(User, username=self.kwargs.get('username'))
+        prof_obj = get_object_or_404(UserProfile, user=obj)
+        return prof_obj
