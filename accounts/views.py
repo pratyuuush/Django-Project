@@ -101,6 +101,16 @@ def home(request):
     return render(request, 'accounts/home.html')
 
 
+def explore(request):
+    random_posts = Post.objects.all().order_by('?')[:40]
+
+    context = {
+        'posts': random_posts
+    }
+    return render(request, 'accounts/explore.html', context)
+
+
+
 def profile(request, username):
     user = User.objects.get(username=username)
     if not user:
