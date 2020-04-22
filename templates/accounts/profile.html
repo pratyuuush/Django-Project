@@ -10,6 +10,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
@@ -179,14 +191,14 @@
             <div class="logo" style="text-align: center;">
 
                 <h1 class="text-light" style="margin-bottom: 25px;">
-                    <a href="{% url 'profile' user.username %}" class="float-left">
-                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle"
-                            style="width: 35px;height: 40px;margin-top: 20px;" alt="Image">
+                    <a href="{% url 'profile' logged_user.username %}" class="float-left">
+                        <img src="{{ logged_user.userprofile.image.url }}" class='rounded-circle article-img mt-1'
+                            style="width: 40px;height: 40px;" alt="Image">
                     </a>
                     <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
                             class="img-fluid" style="max-width: 100% !important;
                     max-height: 60px !important;"></a>
-                    <a href="{% url 'index' %}" class="float-right"><i class="fa fa-search"
+                    <a href="{% url 'explore' %}" class="float-right"><i class="fa fa-search"
                             style="font-size: 28px;margin-top: 12px;"></i></a>
                 </h1>
             </div>
@@ -210,19 +222,19 @@
             <br>
             <div class="col-sm-8">
                 <div class="profile-bar">
-                    <a class="active" href="#">
-                        <h2>97</h2>
+                    <a href="{% url 'user-followers' user.username %}" style="text-decoration: none;">
+                        <h2>{{ user.userprofile.followers }}</h2>
                         <h4>followers</h4>
                     </a>
-                    <a href="#">
-                        <h2>97</h2>
+                    <a href="{% url 'user-follows' user.username %}" style="text-decoration: none;">
+                        <h2>{{ user.userprofile.following }}</h2>
                         <h4>following</h4>
                     </a>
-                    <a href="#">
+                    <a href="#" style="text-decoration: none;">
                         <h2>4.8</h2>
                         <h4>ratings</h4>
                     </a>
-                    <a href="#">
+                    <a href="#" style="text-decoration: none;">
                         <h2>97</h2>
                         <h4>reviews</h4>
                     </a>
@@ -249,27 +261,28 @@
             <a href="#"><i class="fa fa-user-o"></i></a>
             <a href="#"><i class="fa fa-phone"></i></a>
             <a href="#"><i class="fa fa-star"></i></a>
-        </div>
-        {% endif %}
-    </div>
-    <hr>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
-    <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
-    <!--===============================================================================================-->
-    <script src="{% static 'js/main1.js' %}"></script>
 
+            {%  if profile is not None and profile.id != user.id  and user.username != '' %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <button class="btn btn-primary" name="{% if can_follow %}follow{% else %}unfollow{% endif %}"
+                        type="submit">
+                        {% if can_follow %}
+                        FOLLOW
+                        {% else %}
+                        FOLLOWING
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+            {% endif %}
+            {% endif %}
+        </div>
+        <hr>
+    </div>
+    <script type="text/javascript" src="{% static 'js/main1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 </body>
 
 </html>

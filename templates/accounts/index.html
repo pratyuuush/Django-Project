@@ -111,11 +111,11 @@
                 <h1 class="text-light" style="margin-bottom: 25px;">
 
                     <a href="{% url 'profile' user.username %}" class="float-left">
-                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle"
-                            style="width: 35px;height: 40px;margin-top: 20px;" alt="Image">
+                        <img src="{{ user.userprofile.image.url }}" class='rounded-circle article-img mt-1'
+                            style="width: 40px;height: 40px;" alt="Image">
                     </a>
-                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}"
-                        alt="GIGO" class="img-fluid" style="max-width: 100% !important;
+                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+                            class="img-fluid" style="max-width: 100% !important;
                     max-height: 60px !important;"></a>
                     <a href="{% url 'explore' %}" class="float-right"><i class="fa fa-search"
                             style="font-size: 28px;margin-top: 12px;"></i></a>

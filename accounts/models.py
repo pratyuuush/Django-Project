@@ -6,8 +6,8 @@ from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 from django.utils import timezone
-
-
+from datetime import datetime
+from django.urls import reverse
 
 
 class UserProfile(models.Model):
@@ -24,7 +24,6 @@ class UserProfile(models.Model):
         ('Organization', 'Organization'),
     )
 
-    
 
     email = models.EmailField(max_length=70)
     ac_type = models.CharField(max_length=12, choices=AC_TYPE, default=" ")
@@ -69,17 +68,13 @@ class UserProfile(models.Model):
                             related_name="Feed",
                             blank=True)
 
-    def get_number_of_followers(self):
-        if self.followers.count():
-                return self.followers.count()
-        else:
-                return 0
+    @property
+    def followers(self):
+        return Follow.objects.filter(follow_user=self.user).count()
 
-    def get_number_of_following(self):
-        if self.following.count():
-            return self.following.count()
-        else:
-            return 0
+    @property
+    def following(self):
+        return Follow.objects.filter(user=self.user).count()
 
     def __str__(self):
         return self.user.username
@@ -92,6 +87,7 @@ class Post(models.Model):
     post_something = models.TextField(max_length=1000, null=True, blank=False)
     posted_on = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
+    
 
     POST_TYPE = (
         ('Job', 'Job'),
@@ -99,8 +95,11 @@ class Post(models.Model):
     )
     post_type = models.CharField(max_length=3, choices=POST_TYPE)
 
+
     def __str__(self):
         return self.post_something
 
-
-    
+class Follow(models.Model):
+    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    follow_user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)

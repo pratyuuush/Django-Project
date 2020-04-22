@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from . forms import UserCreateForm, UserUpdateForm, PostForm
-from .models import UserProfile, Post
+from .models import UserProfile, Post, Follow
 from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
@@ -22,7 +22,7 @@ from annoying.decorators import ajax_request
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions
 import datetime
-
+from django.apps import apps
 
 def register(request):
     if request.method == 'POST':
@@ -105,8 +105,21 @@ def home(request):
 
 def explore(request):
     random_posts = Post.objects.all().order_by('?')[:40]
+    queryset = None
+    query = request.GET.get('q')
+    if query:
+        if query.startswith('#'):
+            queryset = Post.objects.all().filter(
+                Q(caption__icontains=query)
+                ).distinct()
+        else:
+            Profile = apps.get_model('accounts', 'UserProfile')
+            queryset = UserProfile.objects.all().filter(
+                Q(user__username__icontains=query)
+                ).distinct()
 
     context = {
+        'searches': queryset,
         'posts': random_posts
     }
     return render(request, 'accounts/explore.html', context)
@@ -114,16 +127,40 @@ def explore(request):
 
 
 def profile(request, username):
-    model = UserProfile
-    user = User.objects.get(username=username)
-    if not user:
+    visible_user = User.objects.get(username=username)
+    visible_user_id = visible_user.id
+
+    if not visible_user:
         return redirect('index')
 
-    profile = UserProfile.objects.get(user=user)
+    logged_user = request.user
+    logged_user_id = request.user.id
+
+
+    follows_between=Follow.objects.filter(user=logged_user_id,
+                                        follow_user=visible_user_id)
+
+    if 'follow' in request.POST:
+        new_relation = Follow(user=logged_user, follow_user=visible_user)
+        if follows_between.count() == 0:
+            new_relation.save()
+    elif 'unfollow' in request.POST:
+        if follows_between.count() > 0:
+            follows_between.delete()
+    
+    if logged_user is None:
+        can_follow = False
+    else:
+        can_follow = (Follow.objects.filter(user=logged_user_id,
+                                                follow_user=visible_user_id).count() == 0)
+        
+
     context = {
         'username': username,
-        'user': user,
-        'profile': profile
+        'user': visible_user,
+        'profile': profile,
+        'logged_user': logged_user,
+        'can_follow':can_follow,
     }
     return render(request, 'accounts/profile.html', context)        
 
@@ -197,3 +234,62 @@ class DeletePost(UserPassesTestMixin, DeleteView):
 def settings(request):
     return render(request, 'accounts/settings.html')
 
+
+
+
+def search(request):
+    queryset = None
+    query = request.GET.get('q')
+    if query:
+        if query.startswith('#'):
+            queryset = Post.objects.all().filter(
+                Q(caption__icontains=query)
+                ).distinct()
+        else:
+            Profile = apps.get_model('accounts', 'UserProfile')
+            queryset = UserProfile.objects.all().filter(
+                Q(user__username__icontains=query)
+                ).distinct()
+
+    context = {
+        'posts': queryset
+    }
+    return render(request, "accounts/search.html", context)
+
+
+class FollowsListView(ListView):
+    model = Follow
+    template_name = 'accounts/follow.html'
+    context_object_name = 'follows'
+
+    def visible_user(self):
+        return get_object_or_404(User, username=self.kwargs.get('username'))
+
+    def get_queryset(self):
+        user = self.visible_user()
+        return Follow.objects.filter(user=user).order_by('-date')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['follow'] = 'follows'
+        return data
+
+
+class FollowersListView(ListView):
+    model = Follow
+    template_name = 'accounts/follow.html'
+    context_object_name = 'follows'
+
+    def visible_user(self):
+        return get_object_or_404(User, username=self.kwargs.get('username'))
+
+    def get_queryset(self):
+        user = self.visible_user()
+        return Follow.objects.filter(follow_user=user).order_by('-date')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['follow'] = 'followers'
+        return data
+     
+     

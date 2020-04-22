@@ -9,3 +9,4 @@ six~=1.14.0
 django-phonenumber-field[phonenumbers])~=(3.2.5)
 django-countries~=(6.1.2)
 djangorestframework~=3.11.0
+django-annoying~=0.3.1

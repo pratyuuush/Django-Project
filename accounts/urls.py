@@ -12,10 +12,7 @@ urlpatterns = [
     path('profile/(?P<username>[-_\w.]+)/$', views.profile, name='profile'),
     path('profile/(?P<username>[-_\w.]+)/edit/$', views.profile_settings, name='profile_settings'),
     path('index/', views.index, name='index'),
-<<<<<<< HEAD
     path('explore/', views.explore, name='explore'),
-    path('user/<str:username>/follow/', views.FollowUser.as_view(), name='user_follow'),
-=======
     path('settings/', views.settings, name='settings'),
     path(
         'change-password/',
@@ -25,5 +22,7 @@ urlpatterns = [
         ),
         name='change_password'
     ),
->>>>>>> 035bab8b622a3d0de0dd2439969c951c2d1be7ba
+    path('search/', views.search, name='search'),
+    path('user/(?P<username>[-_\w.]+)/follows', views.FollowsListView.as_view(), name='user-follows'),
+    path('user/(?P<username>[-_\w.]+)/followers', views.FollowersListView.as_view(), name='user-followers'),
 ]

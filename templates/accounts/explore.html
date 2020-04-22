@@ -1,5 +1,6 @@
 {% load crispy_forms_tags %}
-{% load static %}
+{% load static custom_tags %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,41 +52,16 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <style>
-        * {
-  box-sizing: border-box;
-}
+        .form-control:focus {
+            box-shadow: none;
+        }
 
-form.example input[type=text] {
-  padding: 23px;
-  font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  background: #f1f1f1;
-}
-
-form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
-  background: #2196F3;
-  color: white;
-  font-size: 17px;
-  border: 1px solid grey;
-  border-left: none;
-  cursor: pointer;
-}
-
-form.example button:hover {
-  background: #0b7dda;
-}
-
-form.example::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
+        .form-control-underlined {
+            border-width: 0;
+            border-bottom-width: 1px;
+            border-radius: 0;
+            padding-left: 0;
+        }
     </style>
 </head>
 
@@ -99,11 +75,11 @@ form.example::after {
                 <h1 class="text-light" style="margin-bottom: 25px;">
 
                     <a href="{% url 'profile' user.username %}" class="float-left">
-                        <img src="{{ user.userprofile.image.url }}" class="rounded-circle"
-                            style="width: 35px;height: 40px;margin-top: 20px;" alt="Image">
+                        <img src="{{ user.userprofile.image.url }}" class='rounded-circle article-img mt-1'
+                            style="width: 40px;height: 40px;" alt="Image">
                     </a>
-                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}"
-                        alt="GIGO" class="img-fluid" style="max-width: 100% !important;
+                    <a href="{% url 'index' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+                            class="img-fluid" style="max-width: 100% !important;
                     max-height: 60px !important;"></a>
                     <a href="{% url 'explore' %}" class="float-right"><i class="fa fa-search"
                             style="font-size: 28px;margin-top: 12px;"></i></a>
@@ -111,13 +87,58 @@ form.example::after {
             </div>
         </div>
     </header>
-<br> <br> <br> <br> <br>
-    <div class="container">
-        <form class="example" action="#">
-            <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
+
+
+
+    <div class="container" style="padding-top: 140px;">
+        <form method="GET" action="" style="padding-top: 270px;">
+            <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4 border">
+                <div class="input-group">
+                    <input type="search" placeholder="Search" name="q" value="{{ request.GET.q }}"
+                        aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                    <div class="input-group-append">
+                        <button id="button-addon1" type="submit" class="btn btn-link text-dark"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
+
+
+    <div class="container">
+        {% if request.GET.q %}
+
+        {% for userprofile in searches %}
+        <img class='rounded-circle article-img mt-1' src="{{ userprofile.image.url }}" height="50" width="50">
+        <a href="{% url 'profile' userprofile.user.username %}">{{ userprofile.user }}</a>
+        </br>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <div class="container" style="padding-left: 20px;padding-right: 20px; padding-bottom: 60px;padding-top: 50px;">
+        <table>
+            <tbody>
+
+                {% for post in posts reversed %}
+                <div class="card">
+                    <tr>
+                        <a class="black-link" href="{% url 'profile' post.author.user.username %}"
+                            style="text-decoration: none;">{{ post.author }}</a>
+                    </tr>
+                    <tr>
+                        <p style="text-align: justify;" class="textdesign">
+                            {{ post.post_something }}</p>
+                    </tr>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+
 
 
 
@@ -136,7 +157,10 @@ form.example::after {
     <!--===============================================================================================-->
     <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
     <!--===============================================================================================-->
+
     <script src="{% static 'js/main1.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+
 
 </body>
 
