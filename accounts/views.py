@@ -24,6 +24,9 @@ from rest_framework import authentication, permissions
 import datetime
 from django.apps import apps
 
+
+PAGINATION_COUNT = 5
+
 def register(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
@@ -129,6 +132,7 @@ def explore(request):
 def profile(request, username):
     visible_user = User.objects.get(username=username)
     visible_user_id = visible_user.id
+    user = visible_user.userprofile
 
     if not visible_user:
         return redirect('index')
@@ -153,14 +157,19 @@ def profile(request, username):
     else:
         can_follow = (Follow.objects.filter(user=logged_user_id,
                                                 follow_user=visible_user_id).count() == 0)
-        
+
+    ordering = ['-posted_on']
+    paginate_by = PAGINATION_COUNT
+
+    posts = Post.objects.filter(author=user).order_by('-posted_on')  
 
     context = {
         'username': username,
         'user': visible_user,
         'profile': profile,
         'logged_user': logged_user,
-        'can_follow':can_follow,
+        'can_follow': can_follow,
+        'posts':posts
     }
     return render(request, 'accounts/profile.html', context)        
 
@@ -200,7 +209,26 @@ def index(request):
             return redirect('index')
     else:
         p_form = PostForm()
-    return render(request, 'accounts/index.html',{'p_form': p_form})   
+
+
+    paginate_by = PAGINATION_COUNT
+
+    user = request.user
+    userprofile = request.user.userprofile
+    qs = Follow.objects.filter(user=user)
+    follows = [userprofile]
+    for obj in qs:
+        follows.append(obj.follow_user.userprofile)
+    
+        
+    posts = Post.objects.filter(author__in=follows).order_by('-posted_on')
+
+    
+    context = {
+    'p_form': p_form,
+    'posts':posts
+    }   
+    return render(request, 'accounts/index.html',context)   
 
 
 

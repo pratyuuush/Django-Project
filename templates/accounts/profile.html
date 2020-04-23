@@ -281,6 +281,27 @@
         </div>
         <hr>
     </div>
+
+    <div class="container" style="padding-left: 20px;padding-right: 20px; padding-bottom: 60px;padding-top: 150px;">
+        <table>
+            <tbody>
+
+                {% for post in posts reversed %}
+                <div class="card">
+                    <tr>
+                        <a class="black-link" href="{% url 'profile' post.author.user.username %}"
+                            style="text-decoration: none;">{{ post.author }}</a>
+                    </tr>
+                    <tr>
+                        <p style="text-align: justify;" class="textdesign">
+                            {{ post.post_something }}</p>
+                    </tr>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <script type="text/javascript" src="{% static 'js/main1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 </body>

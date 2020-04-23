@@ -108,7 +108,6 @@
 
     <div class="container">
         {% if request.GET.q %}
-
         {% for userprofile in searches %}
         <img class='rounded-circle article-img mt-1' src="{{ userprofile.image.url }}" height="50" width="50">
         <a href="{% url 'profile' userprofile.user.username %}">{{ userprofile.user }}</a>
@@ -137,7 +136,7 @@
             </tbody>
         </table>
     </div>
-    </div>
+    
 
 
 
