@@ -1,0 +1,111 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% load material_form %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Gigo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--===============================================================================================-->
+  <link rel="icon" type="img/png" href="{% static 'img/icons/favicon.ico' %}" />
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+  <!--===============================================================================================-->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="{% include 'material/includes/material_js.html' %}"></script>
+  <style>
+    .logBtn {
+      font-family: Poppins-Medium;
+      font-size: 16px;
+      color: #fff;
+      line-height: 1.2;
+      text-transform: uppercase;
+
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+      width: 39%;
+      height: 50px;
+      background-color: #000;
+      border-radius: 25px;
+
+      box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+      -moz-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+      -webkit-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+      -o-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+      -ms-box-shadow: 0 10px 30px 0px rgb(175, 166, 166);
+
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      transition: all 0.4s;
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header" class="header-scrolled">
+
+    <div class="container">
+      <div class="logo" style="text-align: center;">
+
+        <h1 class="text-light" style="margin-bottom: 25px;">
+          <a href="{% url 'home' %}" class="scrollto"><img src="{% static 'img/icons/logo.jpg' %}" alt="GIGO"
+              class="img-fluid" style="max-width: 100% !important;
+                    max-height: 60px !important;"></a></h1>
+
+      </div>
+    </div>
+  </header>
+  <div style="padding-left: 50px;padding-top: 80px;">
+    <form class="active" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>
+        {% form form=form %}{% endform %}
+        <button type="submit" name="_submit" class="btn">Send</button>
+      </fieldset>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -141,8 +141,12 @@
         <table>
             <tbody>
 
+
+
+
                 {% for post in posts reversed %}
                 <div class="card">
+                    
                     <tr>
                         <a class="black-link" href="{% url 'profile' post.author.user.username %}"
                             style="text-decoration: none;">{{ post.author }}</a>
@@ -156,7 +160,7 @@
             </tbody>
         </table>
     </div>
-    
+
     <!--===============================================================================================-->
     <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
     <!--===============================================================================================-->

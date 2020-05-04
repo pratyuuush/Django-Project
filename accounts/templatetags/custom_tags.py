@@ -16,7 +16,6 @@ def parse_hashtags(field):
         field = field.replace("#" + hashtag, html_tag)
     return field
 
-
 @register.filter(name='addClass')
 def addClass(field, css):
    return field.as_widget(attrs={"class":css})

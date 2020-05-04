@@ -64,10 +64,6 @@ class UserProfile(models.Model):
 
     phone = PhoneNumberField(blank=False,null=True)
     
-    feeds = models.ManyToManyField('Post',
-                            related_name="Feed",
-                            blank=True)
-
     @property
     def followers(self):
         return Follow.objects.filter(follow_user=self.user).count()
@@ -90,10 +86,10 @@ class Post(models.Model):
     
 
     POST_TYPE = (
-        ('Job', 'Job'),
-        ('Blg', 'Blog'),
+        ('Job Post', 'Job'),
+        ('Blog Post', 'Blog'),
     )
-    post_type = models.CharField(max_length=3, choices=POST_TYPE)
+    post_type = models.CharField(max_length=9, choices=POST_TYPE)
 
 
     def __str__(self):
@@ -103,3 +99,8 @@ class Follow(models.Model):
     user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
     follow_user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+class Ratings(models.Model):
+    user = models.ForeignKey(User, related_name='user_rated', on_delete=models.CASCADE)
+    comment = models.TextField(max_length=600, null=True, blank=False)
+    date_posted = models.DateTimeField(default=timezone.now)

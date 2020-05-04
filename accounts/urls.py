@@ -13,6 +13,8 @@ urlpatterns = [
     path('profile/(?P<username>[-_\w.]+)/edit/$', views.profile_settings, name='profile_settings'),
     path('index/', views.index, name='index'),
     path('explore/', views.explore, name='explore'),
+    path('post/<int:pk>/update', views.UpdatePost.as_view(), name='update'),
+    path('post/<int:pk>/delete/', views.DeletePost.as_view(), name='delete'),
     path('settings/', views.settings, name='settings'),
     path(
         'change-password/',

@@ -25,7 +25,11 @@ import datetime
 from django.apps import apps
 
 
+
 PAGINATION_COUNT = 5
+
+def is_users(post_user, logged_user):
+    return post_user == logged_user
 
 def register(request):
     if request.method == 'POST':
@@ -98,12 +102,72 @@ def signout(request):
     logout(request)
     return redirect('home')
 
-
-'''@login_required(login_url='/login/')'''
-
-
 def home(request):
     return render(request, 'accounts/home.html')
+
+def index(request):
+    if request.method == 'POST':
+        p_form = PostForm(request.POST)
+        if p_form.is_valid():
+            post = Post(author=request.user.userprofile,
+                          post_something=request.POST['post_something'],
+                          posted_on=datetime.datetime.now(),
+                          post_type = request.POST['post_type'],
+                          )
+            post.save()
+           
+            return redirect('index')
+    else:
+        p_form = PostForm()
+
+
+    paginate_by = PAGINATION_COUNT
+
+    user = request.user
+    userprofile = request.user.userprofile
+    qs = Follow.objects.filter(user=user)
+    follows = [userprofile]
+    for obj in qs:
+        follows.append(obj.follow_user.userprofile)
+    
+        
+    posts = Post.objects.filter(author__in=follows).order_by('-posted_on')
+
+    
+    context = {
+    'p_form': p_form,
+    'posts':posts
+    }   
+    return render(request, 'accounts/index.html',context)   
+
+class UpdatePost(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['post_something']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+class DeletePost(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    sucess_url = 'index'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+    def get_success_url(self):
+        return reverse('index')
 
 
 def explore(request):
@@ -195,75 +259,8 @@ def profile_settings(request, username):
     return render(request, 'accounts/profile_settings.html', context)
 
 
-def index(request):
-    if request.method == 'POST':
-        p_form = PostForm(request.POST)
-        if p_form.is_valid():
-            post = Post(author=request.user.userprofile,
-                          post_something=request.POST['post_something'],
-                          posted_on=datetime.datetime.now(),
-                          post_type = request.POST['post_type'],
-                          )
-            post.save()
-           
-            return redirect('index')
-    else:
-        p_form = PostForm()
-
-
-    paginate_by = PAGINATION_COUNT
-
-    user = request.user
-    userprofile = request.user.userprofile
-    qs = Follow.objects.filter(user=user)
-    follows = [userprofile]
-    for obj in qs:
-        follows.append(obj.follow_user.userprofile)
-    
-        
-    posts = Post.objects.filter(author__in=follows).order_by('-posted_on')
-
-    
-    context = {
-    'p_form': p_form,
-    'posts':posts
-    }   
-    return render(request, 'accounts/index.html',context)   
-
-
-
-@login_required(login_url='/login/')
-class update_post(UserPassesTestMixin, UpdateView):
-    model = Post
-    fields = ['caption']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
-
-@login_required(login_url='/login/')
-class DeletePost(UserPassesTestMixin, DeleteView):
-    model = Post
-    sucess_url = 'home'
-
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
-
-
 def settings(request):
     return render(request, 'accounts/settings.html')
-
-
-
 
 def search(request):
     queryset = None
@@ -319,5 +316,5 @@ class FollowersListView(ListView):
         data = super().get_context_data(**kwargs)
         data['follow'] = 'followers'
         return data
-     
-     
+
+
