@@ -317,4 +317,39 @@ class FollowersListView(ListView):
         data['follow'] = 'followers'
         return data
 
+def ratings(request):
+    if request.method == 'POST':
+        p_form = PostForm(request.POST)
+        if p_form.is_valid():
+            post = Post(author=request.user.userprofile,
+                          post_something=request.POST['post_something'],
+                          posted_on=datetime.datetime.now(),
+                          post_type = request.POST['post_type'],
+                          )
+            post.save()
+           
+            return redirect('index')
+    else:
+        p_form = PostForm()
+
+
+    paginate_by = PAGINATION_COUNT
+
+    user = request.user
+    userprofile = request.user.userprofile
+    qs = Follow.objects.filter(user=user)
+    follows = [userprofile]
+    for obj in qs:
+        follows.append(obj.follow_user.userprofile)
+    
+        
+    posts = Post.objects.filter(author__in=follows).order_by('-posted_on')
+
+    
+    context = {
+    'p_form': p_form,
+    'posts':posts
+    }   
+    return render(request, 'accounts/index.html',context)   
+
 

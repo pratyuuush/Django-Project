@@ -100,7 +100,15 @@ class Follow(models.Model):
     follow_user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
-class Ratings(models.Model):
+class Rating(models.Model):
     user = models.ForeignKey(User, related_name='user_rated', on_delete=models.CASCADE)
     comment = models.TextField(max_length=600, null=True, blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
+    RATE_TYPE = (
+        ('5 Star', '5'),
+        ('4 Star', '4'),
+        ('3 Star', '3'),
+        ('2 Star', '2'),
+        ('1 Star', '1'),
+    )
+    rate_type = models.CharField(max_length=7, choices=RATE_TYPE, default=" ")
