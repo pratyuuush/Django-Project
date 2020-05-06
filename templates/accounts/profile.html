@@ -182,6 +182,15 @@
             -o-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
             -ms-box-shadow: 0 10px 30px 0px rgba(51, 51, 51, 0.5);
         }
+
+        @media (max-width: 768px) {
+            .a1 {
+                padding-left: 40px;
+            }
+            .a2 {
+                padding-left: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -222,20 +231,17 @@
             <br>
             <div class="col-sm-8">
                 <div class="profile-bar">
-                    <a href="{% url 'user-followers' user.username %}" style="text-decoration: none;">
-                        <h2>{{ user.userprofile.followers }}</h2>
+                    <a href="{% url 'user-followers' user.username %}"
+                        style="text-decoration: none;padding-right: 24px;">
+                        <h2 class="a1">{{ user.userprofile.followers }}</h2>
                         <h4>followers</h4>
                     </a>
-                    <a href="{% url 'user-follows' user.username %}" style="text-decoration: none;">
-                        <h2>{{ user.userprofile.following }}</h2>
+                    <a href="{% url 'user-follows' user.username %}" style="text-decoration: none;padding-left: 34px;">
+                        <h2 class="a1">{{ user.userprofile.following }}</h2>
                         <h4>following</h4>
                     </a>
-                    <a href="#" style="text-decoration: none;">
-                        <h2>4.8</h2>
-                        <h4>ratings</h4>
-                    </a>
-                    <a href="#" style="text-decoration: none;">
-                        <h2>97</h2>
+                    <a href="{% url 'ratings' user.username %}" style="text-decoration: none;padding-left: 74px;">
+                        <h2 class="a2">{{ rating_count }}</h2>
                         <h4>reviews</h4>
                     </a>
                 </div>
@@ -260,7 +266,7 @@
         <div class="profile-bar">
             <a href="#"><i class="fa fa-user-o"></i></a>
             <a href="{% url 'direct_messages-new' %}"><i class="fa fa-envelope"></i></a>
-            <a href="#"><i class="fa fa-star"></i></a>
+            <a href="{% url 'ratings' user.username %}"><i class="fa fa-star"></i></a>
 
             {%  if profile is not None and profile.id != user.id  and user.username != '' %}
             <form method="POST">

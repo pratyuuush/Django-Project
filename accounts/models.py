@@ -89,7 +89,7 @@ class Post(models.Model):
         ('Job Post', 'Job'),
         ('Blog Post', 'Blog'),
     )
-    post_type = models.CharField(max_length=9, choices=POST_TYPE)
+    post_type = models.CharField(max_length=9, choices=POST_TYPE, default=" ")
 
 
     def __str__(self):
@@ -101,7 +101,10 @@ class Follow(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, related_name='user_rated', on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, related_name='user_rated',
+    on_delete=models.CASCADE, null=True, blank=True)
+    reciever = models.ForeignKey(User, related_name='user_recieved',
+    on_delete=models.CASCADE, null=True, blank=True)
     comment = models.TextField(max_length=600, null=True, blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
     RATE_TYPE = (

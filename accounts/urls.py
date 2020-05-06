@@ -27,4 +27,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('user/(?P<username>[-_\w.]+)/follows', views.FollowsListView.as_view(), name='user-follows'),
     path('user/(?P<username>[-_\w.]+)/followers', views.FollowersListView.as_view(), name='user-followers'),
+    path('ratings/(?P<username>[-_\w.]+)/$', views.ratings, name='ratings'),
 ]

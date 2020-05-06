@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from . forms import UserCreateForm, UserUpdateForm, PostForm
-from .models import UserProfile, Post, Follow
+from . forms import UserCreateForm, UserUpdateForm, PostForm, RateForm
+from .models import UserProfile, Post, Follow, Rating
 from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
@@ -226,6 +226,7 @@ def profile(request, username):
     paginate_by = PAGINATION_COUNT
 
     posts = Post.objects.filter(author=user).order_by('-posted_on')  
+    rating_count =  Rating.objects.filter(reciever=visible_user_id ).count()
 
     context = {
         'username': username,
@@ -233,7 +234,8 @@ def profile(request, username):
         'profile': profile,
         'logged_user': logged_user,
         'can_follow': can_follow,
-        'posts':posts
+        'posts': posts,
+        'rating_count': rating_count
     }
     return render(request, 'accounts/profile.html', context)        
 
@@ -317,39 +319,34 @@ class FollowersListView(ListView):
         data['follow'] = 'followers'
         return data
 
-def ratings(request):
+def ratings(request,username):
     if request.method == 'POST':
-        p_form = PostForm(request.POST)
-        if p_form.is_valid():
-            post = Post(author=request.user.userprofile,
-                          post_something=request.POST['post_something'],
-                          posted_on=datetime.datetime.now(),
-                          post_type = request.POST['post_type'],
-                          )
-            post.save()
+        r_form = RateForm(request.POST)
+        if r_form.is_valid():
+            rate = Rating(author=request.user.userprofile,
+                          comment=request.POST['comment'],
+                          date_posted=datetime.datetime.now(),
+                          rate_type = request.POST['rate_type'],
+                          reciever = User.objects.get(username=username)       
+                        )
+              
+            rate.save()   
            
             return redirect('index')
     else:
-        p_form = PostForm()
-
+        r_form = RateForm()  
 
     paginate_by = PAGINATION_COUNT
 
-    user = request.user
-    userprofile = request.user.userprofile
-    qs = Follow.objects.filter(user=user)
-    follows = [userprofile]
-    for obj in qs:
-        follows.append(obj.follow_user.userprofile)
-    
+    user = User.objects.get(username=username)
         
-    posts = Post.objects.filter(author__in=follows).order_by('-posted_on')
-
+    ratings = Rating.objects.filter(reciever=user).order_by('-date_posted')
     
+
+
     context = {
-    'p_form': p_form,
-    'posts':posts
-    }   
-    return render(request, 'accounts/index.html',context)   
+        'r_form': r_form,
+        'ratings':ratings,
+    }
 
-
+    return render(request, 'accounts/ratings.html', context)

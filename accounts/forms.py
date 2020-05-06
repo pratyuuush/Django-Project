@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Post
+from .models import UserProfile, Post, Rating
 from django.forms import ModelForm
 
 class UserCreateForm(UserCreationForm):
@@ -65,3 +65,11 @@ class UpdateForm(forms.ModelForm):
         'post_something',
         'post_type'
         ]        
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = [
+        'comment',
+        'rate_type',
+        ]
