@@ -73,3 +73,5 @@ class RateForm(forms.ModelForm):
         'comment',
         'rate_type',
         ]
+
+      

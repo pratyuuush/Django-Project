@@ -5,3 +5,4 @@ admin.site.register(Post)
 admin.site.register(UserProfile)
 admin.site.register(Follow)
 admin.site.register(Rating)
+

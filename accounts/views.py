@@ -264,26 +264,6 @@ def profile_settings(request, username):
 def settings(request):
     return render(request, 'accounts/settings.html')
 
-def search(request):
-    queryset = None
-    query = request.GET.get('q')
-    if query:
-        if query.startswith('#'):
-            queryset = Post.objects.all().filter(
-                Q(caption__icontains=query)
-                ).distinct()
-        else:
-            Profile = apps.get_model('accounts', 'UserProfile')
-            queryset = UserProfile.objects.all().filter(
-                Q(user__username__icontains=query)
-                ).distinct()
-
-    context = {
-        'posts': queryset
-    }
-    return render(request, "accounts/search.html", context)
-
-
 class FollowsListView(ListView):
     model = Follow
     template_name = 'accounts/follow.html'
@@ -338,15 +318,18 @@ def ratings(request,username):
 
     paginate_by = PAGINATION_COUNT
 
-    user = User.objects.get(username=username)
+    visible_user = User.objects.get(username=username)
+    logged_user = request.user
         
-    ratings = Rating.objects.filter(reciever=user).order_by('-date_posted')
+    ratings = Rating.objects.filter(reciever=visible_user).order_by('-date_posted')
     
 
 
     context = {
         'r_form': r_form,
-        'ratings':ratings,
+        'ratings': ratings,
+        'visible_user': visible_user,
+        'logged_user':logged_user
     }
 
     return render(request, 'accounts/ratings.html', context)

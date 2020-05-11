@@ -98,6 +98,10 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
+        .checked {
+            color: goldenrod;
+        }
     </style>
 </head>
 
@@ -125,6 +129,9 @@
     </header>
 
 
+    {% if request.user == logged_user %}
+
+    {% else %}
     <div class="container" style="padding-top: 130px;">
         <form method="POST">
             {% csrf_token %}
@@ -136,7 +143,7 @@
 
         </form>
     </div>
-
+    {% endif %}
     <div class="container" style="padding-left: 20px;padding-right: 20px; padding-bottom: 60px;padding-top: 150px;">
         <table>
             <tbody>
@@ -150,37 +157,33 @@
                     {% if rating.rate_type == "5 Star" %}
                     <tr>
                         <p style="text-align: justify;" class="textdesign">
-                            <i class="fa fa-star" style="font-size: 18px;"></i><i class="fa fa-star"
-                                style="font-size: 18px;"></i><i class="fa fa-star" style="font-size: 18px;"></i><i
-                                class="fa fa-star" style="font-size: 18px;"></i><i class="fa fa-star"
-                                style="font-size: 18px;"></i>
-                        </p>
+                            <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span
+                                class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span
+                                class="fa fa-star checked"></span> </p>
                     </tr>
                     {% elif rating.rate_type == "4 Star" %}
                     <tr>
                         <p style="text-align: justify;" class="textdesign">
-                            <i class="fa fa-star" style="font-size: 18px;"></i><i class="fa fa-star"
-                                style="font-size: 18px;"></i><i class="fa fa-star" style="font-size: 18px;"></i><i
-                                class="fa fa-star" style="font-size: 18px;"></i>
+                            <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span
+                                class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                         </p>
                     </tr>
                     {% elif rating.rate_type == "3 Star" %}
                     <tr>
                         <p style="text-align: justify;" class="textdesign">
-                            <i class="fa fa-star" style="font-size: 18px;"></i><i class="fa fa-star"
-                                style="font-size: 18px;"></i><i class="fa fa-star" style="font-size: 18px;"></i>                        </p>
+                            <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span
+                                class="fa fa-star checked"></span></p>
                     </tr>
                     {% elif rating.rate_type == "2 Star" %}
                     <tr>
                         <p style="text-align: justify;" class="textdesign">
-                            <i class="fa fa-star" style="font-size: 18px;"></i><i class="fa fa-star"
-                                style="font-size: 18px;"></i>
+                            <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                         </p>
                     </tr>
                     {% else %}
                     <tr>
                         <p style="text-align: justify;" class="textdesign">
-                            <i class="fa fa-star" style="font-size: 18px;"></i>
+                            <span class="fa fa-star checked"></span>
                         </p>
                     </tr>
                     {% endif %}
@@ -189,7 +192,7 @@
                             {{ rating.comment }}</p>
                     </tr>
                     <tr>
-                        <p style="text-align: justify;" class="textdesign">
+                        <p style="text-align: justify;font-size: 12px;" class="textdesign">
                             {{ rating.date_posted }}</p>
                     </tr>
                 </div>

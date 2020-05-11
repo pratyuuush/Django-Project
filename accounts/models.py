@@ -108,10 +108,12 @@ class Rating(models.Model):
     comment = models.TextField(max_length=600, null=True, blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
     RATE_TYPE = (
-        ('5 Star', '5'),
-        ('4 Star', '4'),
-        ('3 Star', '3'),
-        ('2 Star', '2'),
-        ('1 Star', '1'),
+        ('5 Star', '5 Star'),
+        ('4 Star', '4 Star'),
+        ('3 Star', '3 Star'),
+        ('2 Star', '2 Star'),
+        ('1 Star', '1 Star'),
     )
     rate_type = models.CharField(max_length=7, choices=RATE_TYPE, default=" ")
+
+
