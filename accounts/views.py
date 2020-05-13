@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from . forms import UserCreateForm, UserUpdateForm, PostForm, RateForm
-from .models import UserProfile, Post, Follow, Rating
+from . forms import UserCreateForm, UserUpdateForm, PostForm, RateForm, SettingsUpdateForm, CommentForm
+from .models import UserProfile, Post, Follow, Rating, Comment
 from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
@@ -246,7 +246,6 @@ def profile_settings(request, username):
         return redirect('index')
 
     if request.method == 'POST':
-        print(request.POST)
         p_form = UserUpdateForm(request.POST, instance=user.userprofile, files=request.FILES)
         if p_form.is_valid():
             p_form.save()
@@ -261,8 +260,24 @@ def profile_settings(request, username):
     return render(request, 'accounts/profile_settings.html', context)
 
 
-def settings(request):
-    return render(request, 'accounts/settings.html')
+def settings(request, username):
+    user = User.objects.get(username=username)
+    if request.user != user:
+        return redirect('index')
+
+    if request.method == 'POST':
+        s_form = SettingsUpdateForm(request.POST, instance=user, files=request.FILES)
+        if s_form.is_valid():
+            s_form.save()
+            return redirect(reverse('profile', kwargs={'username': user.username}))
+    else:
+        s_form = SettingsUpdateForm(instance=user)
+
+    context = {
+        'user': user,
+        's_form': s_form
+    }
+    return render(request, 'accounts/settings.html', context)
 
 class FollowsListView(ListView):
     model = Follow
@@ -320,6 +335,9 @@ def ratings(request,username):
 
     visible_user = User.objects.get(username=username)
     logged_user = request.user
+
+    print(logged_user)
+    print(visible_user)
         
     ratings = Rating.objects.filter(reciever=visible_user).order_by('-date_posted')
     
@@ -333,3 +351,32 @@ def ratings(request,username):
     }
 
     return render(request, 'accounts/ratings.html', context)
+
+def add_comment(request, pk):
+    post_pk = pk
+    post = Post.objects.filter(pk=post_pk).first()
+    comments = Comment.objects.filter(post_connected = post).order_by('-posted_on')
+
+    if request.method == 'POST':
+        c_form = CommentForm(request.POST)
+        if c_form.is_valid():
+            new_comment = Comment(user_connected=request.user,
+                          comment=request.POST['comment'],
+                          posted_on=datetime.datetime.now(),
+                          post_connected = post       
+                        )
+              
+            new_comment.save()   
+           
+            return redirect('add_comment', pk=post.id)
+    else:
+        c_form = CommentForm()
+
+    context = {
+        'c_form': c_form,
+        'post': post,
+        'comments':comments
+    }
+
+    return render(request, 'accounts/add_comment.html', context)    
+    

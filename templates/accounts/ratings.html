@@ -129,7 +129,7 @@
     </header>
 
 
-    {% if request.user == logged_user %}
+    {% if request.user == visible_user %}
 
     {% else %}
     <div class="container" style="padding-top: 130px;">
@@ -147,9 +147,9 @@
     <div class="container" style="padding-left: 20px;padding-right: 20px; padding-bottom: 60px;padding-top: 150px;">
         <table>
             <tbody>
+                {% if ratings %}
                 {% for rating in ratings reversed %}
                 <div class="card">
-
                     <tr>
                         <a class="black-link" href="{% url 'profile' rating.author.user.username %}"
                             style="text-decoration: none;">{{ rating.author }}</a>
@@ -197,6 +197,9 @@
                     </tr>
                 </div>
                 {% endfor %}
+                {% else %}
+                <p>Currently user have no ratings</p>
+                {% endif %}
             </tbody>
         </table>
     </div>

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Post, Rating
+from .models import UserProfile, Post, Rating, Comment
 from django.forms import ModelForm
 
 class UserCreateForm(UserCreationForm):
@@ -32,22 +32,24 @@ class UserCreateForm(UserCreationForm):
         return user
 
 
-
-   
-
 class UserUpdateForm(forms.ModelForm):
-
-    '''phone = forms.IntegerField( required=True)
-    address1 = forms.CharField(max_length=12, required=True, label="Address Line 1")
-    address2 = forms.CharField(max_length=12, required=True, label="Address Line 2")
-    city = forms.CharField(max_length=12, required=True, label="City")
-    state = forms.CharField(max_length=12, required=True, label="State")
-    zip_code = forms.IntegerField(required=True)
-    ac_type = forms.ChoiceField(required=True)'''
 
     class Meta:
         model = UserProfile
         fields = ("bio", "ac_type", "address1", "address2", "city", "state", "country", "zip_code", "phone")
+
+class SettingsUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SettingsUpdateForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username']:
+            self.fields[fieldname].help_text = None
+
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name")
+
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -74,4 +76,7 @@ class RateForm(forms.ModelForm):
         'rate_type',
         ]
 
-      
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']      

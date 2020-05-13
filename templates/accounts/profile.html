@@ -258,7 +258,7 @@
         {% if request.user == user %}
         <div class="profile-bar">
             <a href="{% url 'profile_settings' user.username %}"><i class="fa fa-user-o"></i></a>
-            <a href="{% url 'settings' %}"><i class="fa fa-cog"></i></a>
+            <a href="{% url 'settings' user.username %}"><i class="fa fa-cog"></i></a>
             <a href="{% url 'direct_messages-inbox' %}"><i class="fa fa-bell-o"></i></a>
             <a href="{% url 'signout' %}"><i class="fa fa-power-off"></i></a>
         </div>

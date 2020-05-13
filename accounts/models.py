@@ -18,7 +18,7 @@ class UserProfile(models.Model):
                                       null=True,
                                       blank=True, default='default.jpg')
 
-    bio = models.CharField(max_length=200, null=True, blank=True, default = " ")
+    bio = models.CharField(max_length=200, null=True, blank=False, default = " ")
     AC_TYPE = (
         ('Individual', 'Individual'),
         ('Organization', 'Organization'),
@@ -42,7 +42,7 @@ class UserProfile(models.Model):
         default=" "
     )
 
-    zip_code = models.CharField(
+    zip_code = models.PositiveIntegerField(
         "ZIP / Postal code",
         max_length=10,
         blank=False, 
@@ -117,3 +117,11 @@ class Rating(models.Model):
     rate_type = models.CharField(max_length=7, choices=RATE_TYPE, default=" ")
 
 
+class Comment(models.Model):
+    post_connected = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user_connected = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=100)
+    posted_on = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return self.comment

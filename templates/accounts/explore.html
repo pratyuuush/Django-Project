@@ -133,12 +133,17 @@
                             {{ post.post_type }}</p>
                     </tr>
                     <tr>
-                        <p style="text-align: justify;opacity: 0.9;" class="textdesign">
+                        <p style="text-align: justify;opacity: 0.9;color: black;" class="textdesign">
                             {{ post.post_something }}</p>
                     </tr>
                     <tr>
-                        <p style="text-align: right;opacity: 0.6;" class="textdesign">
-                            {{ post.posted_on }}</p>
+    
+                            <p style="text-align: right;opacity: 0.6;" class="textdesign">
+                                {{ post.posted_on }}</p>
+                            <a href="{% url 'add_comment' post.pk %}"
+                                style="text-align: left;opacity: 0.6;text-decoration: none;color: rgb(99, 94, 94);"
+                                class="textdesign">Add Comment</a>
+                        
                     </tr>
                 </div>
                 {% endfor %}

@@ -15,7 +15,7 @@ urlpatterns = [
     path('explore/', views.explore, name='explore'),
     path('post/<int:pk>/update', views.UpdatePost.as_view(), name='update'),
     path('post/<int:pk>/delete/', views.DeletePost.as_view(), name='delete'),
-    path('settings/', views.settings, name='settings'),
+    path('settings/(?P<username>[-_\w.]+)/$', views.settings, name='settings'),
     path(
         'change-password/',
         auth_views.PasswordChangeView.as_view(
@@ -27,4 +27,5 @@ urlpatterns = [
     path('user/(?P<username>[-_\w.]+)/follows', views.FollowsListView.as_view(), name='user-follows'),
     path('user/(?P<username>[-_\w.]+)/followers', views.FollowersListView.as_view(), name='user-followers'),
     path('ratings/(?P<username>[-_\w.]+)/$', views.ratings, name='ratings'),
+    path('comment/(?P<pk>[-_\w.]+)/$', views.add_comment, name='add_comment'),
 ]
