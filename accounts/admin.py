@@ -7,3 +7,5 @@ admin.site.register(Follow)
 admin.site.register(Rating)
 admin.site.register(Comment)
 
+
+

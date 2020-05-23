@@ -25,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('messages/', include('direct_messages.urls'))
+    path('messages/', include('direct_messages.urls')),
+    path('notifications/', include('notification.urls'))
 ]
 
 if settings.DEBUG: 

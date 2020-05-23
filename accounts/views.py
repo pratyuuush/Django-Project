@@ -360,7 +360,7 @@ def add_comment(request, pk):
     if request.method == 'POST':
         c_form = CommentForm(request.POST)
         if c_form.is_valid():
-            new_comment = Comment(user_connected=request.user,
+            new_comment = Comment(author=request.user,
                           comment=request.POST['comment'],
                           posted_on=datetime.datetime.now(),
                           post_connected = post       
@@ -379,4 +379,5 @@ def add_comment(request, pk):
     }
 
     return render(request, 'accounts/add_comment.html', context)    
-    
+
+ 

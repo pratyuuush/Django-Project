@@ -42,7 +42,7 @@ class UserProfile(models.Model):
         default=" "
     )
 
-    zip_code = models.PositiveIntegerField(
+    zip_code = models.CharField(
         "ZIP / Postal code",
         max_length=10,
         blank=False, 
@@ -119,9 +119,16 @@ class Rating(models.Model):
 
 class Comment(models.Model):
     post_connected = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user_connected = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.CharField(max_length=100)
     posted_on = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.comment
+
+    def save(self, **kwargs):
+        super().save()    
+
+
+
+
